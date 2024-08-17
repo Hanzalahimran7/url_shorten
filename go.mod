@@ -2,4 +2,4 @@ module github.com/hanzalahimran7/url_shorten
 
 go 1.22.2
 
-require github.com/go-chi/chi/v5 v5.1.0 // indirect
+require github.com/go-chi/chi/v5 v5.1.0

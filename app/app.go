@@ -7,19 +7,21 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/hanzalahimran7/url_shorten/controller"
 )
 
 type App struct {
-	Router *chi.Mux
+	Router     *chi.Mux
+	Controller controller.UserController
 }
 
 func Initialize() *App {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
-	router.Use(middleware.RequestID)
 	router.Use(middleware.Timeout(time.Millisecond * 2000))
 	return &App{
-		Router: router,
+		Router:     router,
+		Controller: controller.NewController(),
 	}
 }
 
