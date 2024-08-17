@@ -13,6 +13,6 @@ func NewController() UserController {
 }
 
 func (uc *UserController) HelloWorld(w http.ResponseWriter, r *http.Request) (int, error) {
-	utils.WriteJSON(w, http.StatusOK, []byte("Hello world"))
+	utils.WriteJSON(w, http.StatusOK, "Hello world")
 	return 0, nil
 }

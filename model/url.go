@@ -9,3 +9,10 @@ type Url struct {
 	CreateAt     *time.Time `json:"created_at"`
 	ExpiredAt    *time.Time `json:"expired_at"`
 }
+
+type Stats struct {
+	Id           string `json:"id"`
+	OriginalUrl  string `json:"original_url"`
+	ShortenedUrl string `json:"shortened_url"`
+	Visits       int    `json:"visits"`
+}
