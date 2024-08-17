@@ -6,4 +6,5 @@ import (
 
 func (a *App) loadRoutes() {
 	a.Router.Get("/", utils.ApiFunc(a.Controller.HelloWorld))
+	a.Router.Post("/create", utils.ApiFunc(a.Controller.CreateURL))
 }

@@ -1,9 +1,13 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Url struct {
-	Id           string     `json:"id"`
+	Id           uuid.UUID  `json:"id"`
 	OriginalUrl  string     `json:"original_url"`
 	ShortenedUrl string     `json:"shortened_url"`
 	CreateAt     *time.Time `json:"created_at"`
@@ -11,8 +15,8 @@ type Url struct {
 }
 
 type Stats struct {
-	Id           string `json:"id"`
-	OriginalUrl  string `json:"original_url"`
-	ShortenedUrl string `json:"shortened_url"`
-	Visits       int    `json:"visits"`
+	Id           uuid.UUID `json:"id"`
+	OriginalUrl  string    `json:"original_url"`
+	ShortenedUrl string    `json:"shortened_url"`
+	Visits       int       `json:"visits"`
 }
