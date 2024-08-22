@@ -15,7 +15,6 @@ import (
 type App struct {
 	Router     *chi.Mux
 	Controller controller.UserController
-	DB         *store.Database
 }
 
 func Initialize(db_options *redis.Options) *App {
@@ -29,7 +28,6 @@ func Initialize(db_options *redis.Options) *App {
 	return &App{
 		Router:     router,
 		Controller: controller.NewController(db),
-		DB:         &db,
 	}
 }
 
