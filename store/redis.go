@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"github.com/hanzalahimran7/url_shorten/model"
@@ -25,6 +26,18 @@ func GetRedisInstance(options *redis.Options) (Database, error) {
 	return &redisDB{db: rdb}, nil
 }
 
-func (r *redisDB) CreateUrl(url string) (model.Url, error)     { return model.Url{}, nil }
+func (r *redisDB) CreateUrl(ctx context.Context, data model.Url) error {
+	expireTime := data.ExpiredAt.Sub(*data.CreateAt)
+	b, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	err = r.db.Set(ctx, data.Id.String(), b, expireTime).Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (r *redisDB) GetUrl(url string) (model.Url, error)        { return model.Url{}, nil }
 func (r *redisDB) GetUrlStats(url string) (model.Stats, error) { return model.Stats{}, nil }

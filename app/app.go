@@ -28,7 +28,7 @@ func Initialize(db_options *redis.Options) *App {
 	}
 	return &App{
 		Router:     router,
-		Controller: controller.NewController(),
+		Controller: controller.NewController(db),
 		DB:         &db,
 	}
 }

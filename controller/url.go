@@ -1,21 +1,28 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/hanzalahimran7/url_shorten/model"
+	"github.com/hanzalahimran7/url_shorten/store"
 	"github.com/hanzalahimran7/url_shorten/utils"
 )
 
-type UserController struct{}
+type UserController struct {
+	db store.Database
+}
 
-func NewController() UserController {
-	return UserController{}
+func NewController(database store.Database) UserController {
+	return UserController{
+		db: database,
+	}
 }
 
 func (uc *UserController) HelloWorld(w http.ResponseWriter, r *http.Request) (int, error) {
@@ -48,7 +55,7 @@ func (uc *UserController) CreateURL(w http.ResponseWriter, r *http.Request) (int
 	}
 
 	created_at := time.Now().UTC()
-	expired_at := time.Now().UTC().Add(time.Hour * 2)
+	expired_at := time.Now().UTC().Add(time.Minute * 10)
 
 	body := model.Url{
 		Id:           uuid.New(),
@@ -58,6 +65,13 @@ func (uc *UserController) CreateURL(w http.ResponseWriter, r *http.Request) (int
 		ShortenedUrl: utils.CreateShortenedURL(),
 	}
 
+	ctx := context.Background()
+
+	err = uc.db.CreateUrl(ctx, body)
+	if err != nil {
+		log.Println(err)
+		return http.StatusInternalServerError, fmt.Errorf("INTERNAL SERVER ERROR")
+	}
 	utils.WriteJSON(w, http.StatusCreated, body)
 
 	// Successfully decoded and validated the request
